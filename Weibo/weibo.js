@@ -23,6 +23,8 @@ if (config.runsInWidget) {
 
 function createWidget(data) {
     const widget = new ListWidget();
+    widget.backgroundColor = Color.black()
+    
     const title = widget.addText('🐳微博热搜🐳')
     title.textSize = 15;
     title.textColor = Color.red();
