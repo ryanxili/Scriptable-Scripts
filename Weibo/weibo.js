@@ -56,7 +56,7 @@ function layoutLeftStack(stack) {
     updateTime.textColor = new Color('FFF9F9');
 
     let image = contentStack.addImage(readICloudImage('images/weibo/gua.png'));
-    image.imageSize = new Size(104, 78);
+    image.imageSize = new Size(90, 78);
 }
 
 function layoutRightStack(stack) {
@@ -78,7 +78,7 @@ function layoutRightStack(stack) {
         itemText.leftAlignText();
 
         if (index == 0) {
-            itemStack.addSpacer(10)
+            itemStack.addSpacer(5)
 
             let hotImage = itemStack.addImage(readICloudImage('images/weibo/hot.png'));
             hotImage.imageSize = new Size(25, 25);
@@ -88,8 +88,9 @@ function layoutRightStack(stack) {
 
 function readICloudImage(imagePath) {
     var fm = FileManager.iCloud();
-    var imagePath = fm.documentsDirectory() + '/' + imagePath;
-    return fm.readImage(imagePath);
+    var imageFullPath = fm.documentsDirectory() + '/' + imagePath;
+    fm.downloadFileFromiCloud(imageFullPath)
+    return fm.readImage(imageFullPath);
 }
 
 function currentTime() {
