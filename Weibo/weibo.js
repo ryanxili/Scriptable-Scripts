@@ -6,25 +6,25 @@ const textColor = "#ffffff";
 // 更新热搜数目
 const totalCount = 5;
 
-const apiUrl = `https://api.oioweb.cn/api/summary.php`;
+const apiUrl = `https://m.weibo.cn/api/container/getIndex?containerid=106003%26filter_type%3Drealtimehot`;
 const request = new Request(apiUrl);
 const json = await request.loadString();
-const data = JSON.parse(json);
+const data = JSON.parse(json)['data']['cards'][0]['card_group'];
 
 if (data == undefined) {
     return
 }
 
 if (config.runsInWidget) {
-    let widget = createWidget(data);
+    let widget = createWidget();
     Script.setWidget(widget);
     Script.complete();
 } else {
-    let widget = createWidget(data);
+    let widget = createWidget();
     await widget.presentMedium();
 }
 
-function createWidget(data) {
+function createWidget() {
     const widget = new ListWidget();
 
     const bgColor = new LinearGradient();
@@ -64,7 +64,7 @@ function layoutRightStack(stack) {
     contentStack.layoutVertically();
 
     for(let index = 0; index < totalCount; index++) {
-        const element = data[index];
+        const element = data[index + 1];
         let itemStack = contentStack.addStack();
         itemStack.layoutHorizontally();
         itemStack.centerAlignContent();
@@ -72,7 +72,7 @@ function layoutRightStack(stack) {
         let indexImage = itemStack.addImage(readICloudImage('images/weibo/' + (index + 1) + '.png'));
         indexImage.imageSize = new Size(25, 25)
 
-        const itemText = itemStack.addText(element['title']);
+        const itemText = itemStack.addText(element['desc']);
         itemText.textColor = new Color(textColor);
         itemText.font = Font.systemFont(12);
         itemText.leftAlignText();
